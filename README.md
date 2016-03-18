@@ -2,8 +2,8 @@
 
 1) Create the following services (if you change the name of the service, alter manifest.yml too)
 ```
-dmblob1 predix-blobstore Tiered
-dmsql1 postgres shared
+cf create-service predix-blobstore Tiered dmblob1
+cf create-service postgres shared-nr dmsql1
 ```
 
 2) Push the app to CF, visit URL to create admin account
