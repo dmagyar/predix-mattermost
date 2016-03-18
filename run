@@ -1,0 +1,24 @@
+#!/bin/bash
+
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+
+mkdir $SCRIPTPATH/data 2>/dev/null >/dev/null
+
+export $(./jsparse.py)
+
+cd mattermost
+sed -i config/config.json -e "s#\"ListenAddress\": .*\$#\"ListenAddress\": \":$PORT\",#" \
+-e "s#\"DriverName\": \"mysql.*\$#\"DriverName\": \"postgres\",#" \
+-e "s#\"DataSource\": .*\$#\"DataSource\": \"$DATABASE_URL\",#" \
+-e "s#\"Directory\": \"./dat.*\$#\"Directory\": \"${SCRIPTPATH}/data\",#" \
+-e "s#\"DriverName\": \"local.*\$#\"DriverName\": \"amazons3\",#" \
+-e "s#\"AmazonS3AccessKeyId\": \".*#\"AmazonS3AccessKeyId\": \"${PBLOB_API_KEY}\",#" \
+-e "s#\"AmazonS3SecretAccessKey\": \".*#\"AmazonS3SecretAccessKey\": \"${PBLOB_SECRET_KEY}\",#" \
+-e "s#\"AmazonS3LocationConstraint\": \".*#\"AmazonS3LocationConstraint\": \"true\",#" \
+-e "s#\"AmazonS3BucketEndpoint\": \".*#\"AmazonS3BucketEndpoint\": \"${PBLOB_URL}\",#" \
+-e "s#\"AmazonS3Bucket\": \".*#\"AmazonS3Bucket\": \"${PBLOB_BUCKET}\",#" \
+-e "s#\"AmazonS3Region\": \".*#\"AmazonS3Region\": \"${PBLOB_REGION}\",#" 
+
+exec ./bin/platform
+

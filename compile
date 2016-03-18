@@ -1,0 +1,13 @@
+#!/bin/bash
+
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+BUILDPATH=$1
+
+cd $BUILDPATH
+wget https://github.com/mattermost/platform/releases/download/v2.0.0/mattermost.tar.gz
+tar -zxvf mattermost.tar.gz
+
+
+
+
