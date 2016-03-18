@@ -1,4 +1,4 @@
-Mattermost on Predix
+*Mattermost on Predix*
 
 1) Create the following services (if you change the name of the service, alter manifest.yml too)
 ```
